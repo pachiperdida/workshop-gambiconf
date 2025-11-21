@@ -8,12 +8,12 @@ O projeto é um **Mural de Recados**. Ao final, o seu recado estará publicado j
 
 ## 📋 Pré-requisitos
 
-Antes de começar, certifique-se de ter:
+Para participar deste workshop, você só precisa de:
 
 1.  Uma conta no **GitHub**.
-2.  O **VS Code** instalado.
-3.  A extensão do **GitHub Copilot** instalada e ativa.
-4.  **Git** instalado no seu computador.
+2.  Acesso à internet (faremos tudo no navegador!).
+
+*Nota: O GitHub Codespaces já vem com o VS Code, Git e Copilot configurados para você.*
 
 ---
 
@@ -28,22 +28,20 @@ O primeiro passo em muitos projetos Open Source é fazer uma cópia do projeto p
 *   Clique no botão **Fork** no canto superior direito desta página.
 *   Isso criará uma cópia deste repositório no **seu** GitHub.
 
-### 2. Clone (Clonar) 📥
+### 2. Abrir no Codespaces ☁️
 
-Agora, vamos trazer o código para o seu computador.
+Não vamos instalar nada! Vamos usar um computador na nuvem.
 
 1.  No **seu** fork, clique no botão verde **Code**.
-2.  Copie a URL (HTTPS ou SSH).
-3.  Abra o seu terminal (ou Git Bash) e digite:
-
-    ```bash
-    git clone URL_QUE_VOCE_COPIOU
-    cd gambiconf
-    ```
+2.  Selecione a aba **Codespaces**.
+3.  Clique no botão verde **Create codespace on main**.
+4.  Aguarde o ambiente carregar no seu navegador.
 
 ### 3. Branch (Ramo) 🌿
 
 Nunca trabalhe diretamente na `main`! Vamos criar uma branch separada para a sua contribuição.
+
+No terminal do Codespaces (parte inferior da tela), digite:
 
 ```bash
 git checkout -b recado-SEUNOME
@@ -55,10 +53,9 @@ git checkout -b recado-SEUNOME
 
 Agora vem a parte divertida! Vamos adicionar seu recado.
 
-1.  Abra o projeto no VS Code (`code .`).
-2.  Navegue até a pasta `data` e abra o arquivo `messages.json`.
-3.  Role até o final do arquivo (dentro dos colchetes `[]`).
-4.  **Use o Copilot!**
+1.  No explorador de arquivos à esquerda, navegue até a pasta `data` e abra o arquivo `messages.json`.
+2.  Role até o final do arquivo (dentro dos colchetes `[]`).
+3.  **Use o Copilot!**
     *   Posicione o cursor após o último recado (não esqueça da vírgula no item anterior!).
     *   Comece a digitar um comentário para invocar o Copilot ou use o Chat (`Ctrl+I` ou `Cmd+I`):
 
@@ -66,14 +63,18 @@ Agora vem a parte divertida! Vamos adicionar seu recado.
 
     *   Pressione `Tab` para aceitar a sugestão.
 
-### 5. Testando Localmente 🧪
+### 5. Testando no Navegador 🧪
 
 Antes de enviar, veja se funcionou!
 
-1.  Abra o arquivo `index.html` no seu navegador.
-    *   *Nota:* Alguns navegadores bloqueiam leitura de JSON local. Se não aparecer nada, use um servidor local.
-    *   Se tiver Python: `python3 -m http.server` e acesse `http://localhost:8000`.
-    *   Ou use a extensão **Live Server** do VS Code.
+1.  No terminal, inicie um servidor simples:
+    ```bash
+    python3 -m http.server
+    ```
+2.  O Codespaces mostrará um aviso no canto inferior direito: "Your application is running on port 8000".
+3.  Clique em **Open in Browser**.
+4.  Veja seu recado no mural! 🎉
+5.  Para parar o servidor, clique no terminal e pressione `Ctrl+C`.
 
 ### 6. Commit e Push upload 📤
 

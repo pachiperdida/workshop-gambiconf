@@ -1,8 +1,8 @@
-# 🎓 Workshop: Contribuindo com Open Source usando GitHub Copilot @ GambiConf
+# 🎓 Workshop: Contribuindo com Open Source usando GitHub Copilot @GambiConf
 
-Bem-vindo(a)! Este repositório foi criado especialmente para o nosso workshop na **GambiConf**. Aqui, vamos aprender na prática como contribuir para um projeto Open Source, utilizando a inteligência artificial do **GitHub Copilot** para nos ajudar.
+Boas vindas! Este repositório foi criado especialmente para o nosso workshop na **GambiConf**. Aqui, vamos aprender na prática como contribuir para um projeto Open Source, utilizando a inteligência artificial do **GitHub Copilot** para nos ajudar.
 
-O projeto é um **Mural de Recados**. Ao final, o seu recado estará publicado junto com o de todos os outros participantes!
+O projeto é um **Mural de Recados**. 
 
 ---
 
@@ -21,7 +21,7 @@ Para participar deste workshop, você só precisa de:
 
 Siga este guia detalhado. Se tiver dúvidas, levante a mão! 🙋‍♂️🙋‍♀️
 
-### 1. Fork (Garfo) 🍴
+### 1. Fork🍴
 
 O primeiro passo em muitos projetos Open Source é fazer uma cópia do projeto para a sua conta. Isso se chama **Fork**.
 
@@ -37,7 +37,7 @@ Não vamos instalar nada! Vamos usar um computador na nuvem.
 3.  Clique no botão verde **Create codespace on main**.
 4.  Aguarde o ambiente carregar no seu navegador.
 
-### 3. Branch (Ramo) 🌿
+### 3. Branch  🌿
 
 Nunca trabalhe diretamente na `main`! Vamos criar uma branch separada para a sua contribuição.
 

@@ -33,5 +33,10 @@
     "name": "manakinha",
     "message": "PODE DIGITAR ERRADO QUEO COPILORE ENTENTE, meu nome é manakinha",
     "date": "2025-11-30"
+  },
+  {
+    "name": "aluno_na_feature",
+    "message": "Essa gambiarra foi adicionada na feature branch",
+    "date": "2025-11-30"
   }
 ]

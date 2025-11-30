@@ -50,8 +50,118 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializa o tema
     initTheme();
 
+    // ==================== Card Color Personalization ====================
+
+    /**
+     * Gera a chave única para armazenar a cor de um card no localStorage
+     * @param {number} cardIndex - Índice do card
+     * @returns {string} Chave única no formato "card-color-{index}"
+     */
+    function getCardColorKey(cardIndex) {
+        return `card-color-${cardIndex}`;
+    }
+
+    /**
+     * Salva a cor personalizada de um card no localStorage
+     * @param {number} cardIndex - Índice do card
+     * @param {string} color - Cor em formato hex ou nome (ex: "#ff5500")
+     */
+    function saveCardColor(cardIndex, color) {
+        const key = getCardColorKey(cardIndex);
+        try {
+            localStorage.setItem(key, color);
+        } catch (error) {
+            console.warn(`Erro ao salvar cor do card ${cardIndex}:`, error);
+        }
+    }
+
+    /**
+     * Carrega a cor personalizada de um card do localStorage
+     * @param {number} cardIndex - Índice do card
+     * @returns {string|null} Cor salva ou null se não existir
+     */
+    function loadCardColor(cardIndex) {
+        const key = getCardColorKey(cardIndex);
+        try {
+            return localStorage.getItem(key);
+        } catch (error) {
+            console.warn(`Erro ao carregar cor do card ${cardIndex}:`, error);
+            return null;
+        }
+    }
+
+    /**
+     * Remove a cor personalizada de um card do localStorage
+     * @param {number} cardIndex - Índice do card
+     */
+    function resetCardColor(cardIndex) {
+        const key = getCardColorKey(cardIndex);
+        try {
+            localStorage.removeItem(key);
+        } catch (error) {
+            console.warn(`Erro ao resetar cor do card ${cardIndex}:`, error);
+        }
+    }
+
+    /**
+     * Aplica a cor (personalizada ou padrão) a um card
+     * @param {HTMLElement} cardElement - Elemento do card
+     * @param {number} cardIndex - Índice do card
+     * @param {string} defaultColor - Cor padrão da paleta
+     */
+    function applyCardColor(cardElement, cardIndex, defaultColor) {
+        const savedColor = loadCardColor(cardIndex);
+        const colorToApply = savedColor || defaultColor;
+        cardElement.style.borderTopColor = colorToApply;
+    }
+
+    /**
+     * Cria o color picker para personalizar a cor do card
+     * @param {HTMLElement} cardElement - Elemento do card
+     * @param {number} cardIndex - Índice do card
+     * @param {string} defaultColor - Cor padrão
+     * @returns {HTMLElement} Container com color picker e botão reset
+     */
+    function createColorPickerControl(cardElement, cardIndex, defaultColor) {
+        const container = document.createElement('div');
+        container.className = 'color-picker-control';
+
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.className = 'color-picker-input';
+        colorInput.setAttribute('aria-label', 'Escolher cor para o card');
+        colorInput.title = 'Personalizar cor do card';
+        
+        // Carrega a cor salva ou usa a padrão
+        const savedColor = loadCardColor(cardIndex);
+        colorInput.value = savedColor || defaultColor;
+
+        colorInput.addEventListener('change', (e) => {
+            const newColor = e.target.value;
+            saveCardColor(cardIndex, newColor);
+            applyCardColor(cardElement, cardIndex, newColor);
+        });
+
+        const resetButton = document.createElement('button');
+        resetButton.className = 'color-reset-btn';
+        resetButton.textContent = '↻';
+        resetButton.setAttribute('aria-label', 'Resetar cor para padrão');
+        resetButton.title = 'Resetar cor';
+
+        resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            resetCardColor(cardIndex);
+            colorInput.value = defaultColor;
+            applyCardColor(cardElement, cardIndex, defaultColor);
+        });
+
+        container.appendChild(colorInput);
+        container.appendChild(resetButton);
+        return container;
+    }
+
     // ==================== Date-Based Seeding ====================
-    
+
     /**
      * Gera um valor seed consistente baseado na data do dia
      * Mesma data sempre gera o mesmo valor seed
@@ -62,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const year = today.getFullYear();
         const month = today.getMonth();
         const day = today.getDate();
-        
+
         // Combina data em um número para seed
         const dayNumber = year * 10000 + (month + 1) * 100 + day;
         return dayNumber;
@@ -611,8 +721,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Usa uma cor da paleta extraída das imagens
         const colorIndex = index % colorPalette.length;
-        const borderColor = colorPalette[colorIndex];
-        card.style.borderTopColor = borderColor;
+        const defaultBorderColor = colorPalette[colorIndex];
+        
+        // Aplica cor personalizada ou padrão
+        applyCardColor(card, index, defaultBorderColor);
 
         const content = document.createElement('p');
         content.className = 'message-content';
@@ -622,12 +734,11 @@ document.addEventListener('DOMContentLoaded', () => {
         cardHeader.className = 'card-header';
         cardHeader.appendChild(content);
 
-        cardHeader.appendChild(createCopyButton(msg.message));
-
         const controls = document.createElement('div');
         controls.className = 'card-controls';
         controls.appendChild(createCopyButton(msg.message));
         controls.appendChild(createQRButton(msg.message));
+        controls.appendChild(createColorPickerControl(card, index, defaultBorderColor));
 
         cardHeader.appendChild(controls);
 

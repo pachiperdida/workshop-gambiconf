@@ -233,6 +233,13 @@ body.dark-mode .message-card {
     margin-bottom: 0;
 }
 
+.card-controls {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    align-items: center;
+}
+
 .copy-button {
     background-color: var(--accent-color);
     color: white;
@@ -270,6 +277,58 @@ body.dark-mode .message-card {
     0% { transform: scale(1); }
     50% { transform: scale(1.08); }
     100% { transform: scale(1); }
+}
+
+/* Color Picker Styles */
+.color-picker-control {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.color-picker-input {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.color-picker-input:hover {
+    border-color: var(--accent-color);
+}
+
+body.dark-mode .color-picker-input {
+    border-color: #30363d;
+}
+
+.color-reset-btn {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: var(--text-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.color-reset-btn:hover {
+    border-color: var(--accent-color);
+    background-color: rgba(45, 186, 78, 0.1);
+    color: var(--accent-color);
+}
+
+body.dark-mode .color-reset-btn {
+    border-color: #30363d;
 }
 
 .message-author {

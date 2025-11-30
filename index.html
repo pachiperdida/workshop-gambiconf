@@ -39,11 +39,29 @@
             <!-- As gambiarras serão carregadas aqui via JavaScript -->
             <div class="loading">Carregando gambiarras...</div>
         </div>
+        <section id="stats-section" class="stats-section" aria-labelledby="stats-title">
+            <h2 id="stats-title">📊 Estatísticas das Gambiarras</h2>
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card loading">Calculando estatísticas...</div>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>Feito com 💜 na GambiConf</p>
     </footer>
+
+    <div id="qr-modal" class="qr-modal" aria-hidden="true" style="display:none;">
+        <div class="qr-overlay" tabindex="-1" data-action="close-qr"></div>
+        <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title">
+            <button class="qr-close" aria-label="Fechar QR" data-action="close-qr">✕</button>
+            <h3 id="qr-title">Compartilhar gambiarra</h3>
+            <div class="qr-body">
+                <img id="qr-image" alt="QR code para compartilhar" src="" />
+                <p id="qr-url" class="sr-only"></p>
+            </div>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

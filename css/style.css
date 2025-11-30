@@ -276,6 +276,98 @@ footer {
     margin-top: auto;
 }
 
+/* ===== Stats Section ===== */
+.stats-section {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    padding: 10px 0 0;
+}
+
+.stats-section h2 {
+    font-family: 'Kalam', cursive;
+    font-size: 2rem;
+    margin: 0 0 20px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 2px solid var(--accent-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+body.dark-mode .stat-card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.35);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 14px rgba(0,0,0,0.12);
+}
+
+.stat-card .stat-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    opacity: 0.9;
+}
+
+.stat-card .stat-value {
+    font-size: 2.3rem;
+    font-weight: 700;
+    font-family: 'Kalam', cursive;
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-card .stat-detail {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+body.dark-mode .stat-card .stat-detail {
+    color: #9aa1aa;
+}
+
+.stat-card.longest {
+    border-color: #ffa657;
+}
+
+.stat-snippet {
+    font-family: 'Kalam', cursive;
+    font-size: 1rem;
+    background: rgba(0,0,0,0.04);
+    padding: 10px 12px;
+    border-radius: 8px;
+    max-height: 95px;
+    overflow: auto;
+}
+
+body.dark-mode .stat-snippet {
+    background: rgba(255,255,255,0.06);
+}
+
 /* Cores aleatórias para a borda superior dos cards (será aplicado via JS ou classes auxiliares se quisermos) */
 .card-color-1 { border-top-color: #ff7b72; }
 .card-color-2 { border-top-color: #d2a8ff; }
@@ -394,3 +486,25 @@ footer {
     font-size: 0.9rem;
 }
 
+/* QR modal and QR button styles */
+.qr-button {
+    background: #ffffff;
+    color: var(--text-color);
+    border: 1px solid #e6e6e6;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.qr-button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+.qr-modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.qr-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); }
+.qr-dialog { position: relative; background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 12px 36px rgba(0,0,0,0.35); max-width: 420px; width: 90%; z-index: 1010; }
+.qr-close { position: absolute; top: 8px; right: 8px; background: transparent; border: none; font-size: 1.1rem; cursor: pointer; }
+.qr-body { display:flex; flex-direction: column; gap: 12px; align-items: center; }
+.qr-body img { width: 280px; height: 280px; max-width: 100%; border-radius: 6px; background: white; padding: 8px; }
+
+.sr-only { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }

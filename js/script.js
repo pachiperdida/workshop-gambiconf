@@ -89,11 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'daily-gambiarra-date';
-        try {
-            const dateObj = new Date(date);
-            dateSpan.textContent = dateObj.toLocaleDateString('pt-BR');
-        } catch (e) {
+        const dateObj = new Date(date);
+        if (isNaN(dateObj.getTime())) {
             dateSpan.textContent = date;
+        } else {
+            dateSpan.textContent = dateObj.toLocaleDateString('pt-BR');
         }
 
         footer.appendChild(authorSpan);

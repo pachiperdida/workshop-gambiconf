@@ -27,6 +27,22 @@
     </header>
 
     <main class="container">
+        <!-- Estatísticas: gráfico de gambiarras por data -->
+        <section class="stats-section">
+            <details id="stats-details">
+                <summary>📊 Estatísticas</summary>
+                <div class="stats-controls">
+                    <label for="chart-type-select">Tipo:</label>
+                    <select id="chart-type-select">
+                        <option value="bar">Barras</option>
+                        <option value="line">Linha</option>
+                    </select>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="gambiarra-stats-chart" width="800" height="250"></canvas>
+                </div>
+            </details>
+        </section>
         <section class="search-bar">
             <input id="search-input" type="text" placeholder="Buscar gambiarras por texto ou autor..." aria-label="Buscar gambiarras" />
             <button id="random-highlight-btn" class="btn" type="button" aria-label="Destacar gambiarra aleatória">🎲 Destacar aleatória</button>
@@ -41,6 +57,8 @@
         <p>Feito com 💜 na GambiConf</p>
     </footer>
 
+    <!-- Chart.js CDN (leve e fácil de usar) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

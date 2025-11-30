@@ -1,10 +1,150 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-container');
     const searchInput = document.getElementById('search-input');
+    const dailyGambiarraSection = document.getElementById('daily-gambiarra-section');
     let colorPalette = [];
     let allMessages = [];
 
-    // Função para extrair cores dominantes de uma imagem
+    // ==================== Date-Based Seeding ====================
+    
+    /**
+     * Gera um índice consistente baseado na data do dia
+     * Mesma data sempre gera o mesmo índice
+     * @returns {number} Índice para selecionar a gambiarra do dia
+     */
+    function generateDayBasedIndex() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const day = today.getDate();
+        
+        // Combina data em um número para seed
+        const dayNumber = year * 10000 + (month + 1) * 100 + day;
+        return dayNumber;
+    }
+
+    /**
+     * Calcula um índice determinístico para a gambiarra do dia
+     * @param {number} messagesCount - Quantidade total de mensagens
+     * @returns {number} Índice da gambiarra do dia (0 a messagesCount-1)
+     */
+    function getDailyGambiarraIndex(messagesCount) {
+        if (messagesCount === 0) return -1;
+        const seed = generateDayBasedIndex();
+        return seed % messagesCount;
+    }
+
+    /**
+     * Seleciona a gambiarra do dia baseada na data
+     * @param {Array} messages - Array de mensagens
+     * @returns {Object|null} Mensagem da gambiarra do dia ou null
+     */
+    function selectDailyGambiarra(messages) {
+        if (!Array.isArray(messages) || messages.length === 0) {
+            return null;
+        }
+        const index = getDailyGambiarraIndex(messages.length);
+        return messages[index];
+    }
+
+    // ==================== Daily Gambiarra Card Creation ====================
+
+    /**
+     * Cria o elemento HTML do badge "⭐ Gambiarra do Dia"
+     * @returns {HTMLElement} Elemento do badge
+     */
+    function createDailyBadge() {
+        const badge = document.createElement('div');
+        badge.className = 'daily-badge';
+        badge.textContent = '⭐ Gambiarra do Dia';
+        badge.setAttribute('aria-label', 'Badge de Gambiarra do Dia');
+        return badge;
+    }
+
+    /**
+     * Cria o conteúdo da gambiarra do dia
+     * @param {string} message - Texto da mensagem
+     * @returns {HTMLElement} Parágrafo com o conteúdo
+     */
+    function createDailyContent(message) {
+        const content = document.createElement('p');
+        content.className = 'daily-gambiarra-content';
+        content.textContent = `"${message}"`;
+        return content;
+    }
+
+    /**
+     * Cria o footer com autor e data
+     * @param {string} author - Nome do autor
+     * @param {string} date - Data da gambiarra
+     * @returns {HTMLElement} Div com informações do autor e data
+     */
+    function createDailyFooter(author, date) {
+        const footer = document.createElement('div');
+        footer.className = 'daily-gambiarra-footer';
+
+        const authorSpan = document.createElement('span');
+        authorSpan.className = 'daily-gambiarra-author';
+        authorSpan.textContent = `- ${author}`;
+
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'daily-gambiarra-date';
+        try {
+            const dateObj = new Date(date);
+            dateSpan.textContent = dateObj.toLocaleDateString('pt-BR');
+        } catch (e) {
+            dateSpan.textContent = date;
+        }
+
+        footer.appendChild(authorSpan);
+        footer.appendChild(dateSpan);
+        return footer;
+    }
+
+    /**
+     * Cria o card completo da Gambiarra do Dia
+     * @param {Object} gambiarra - Objeto com message, name, date
+     * @returns {HTMLElement} Card da gambiarra do dia
+     */
+    function createDailyGambiarraCard(gambiarra) {
+        const container = document.createElement('div');
+        container.className = 'daily-gambiarra-container';
+
+        const badge = createDailyBadge();
+        container.appendChild(badge);
+
+        const card = document.createElement('div');
+        card.className = 'daily-gambiarra-card';
+
+        const content = createDailyContent(gambiarra.message);
+        card.appendChild(content);
+
+        const footer = createDailyFooter(gambiarra.name, gambiarra.date);
+        card.appendChild(footer);
+
+        container.appendChild(card);
+        return container;
+    }
+
+    /**
+     * Renderiza a Gambiarra do Dia
+     * @param {Array} messages - Array de mensagens
+     */
+    function renderDailyGambiarra(messages) {
+        const gambiarra = selectDailyGambiarra(messages);
+
+        if (!gambiarra) {
+            dailyGambiarraSection.style.display = 'none';
+            return;
+        }
+
+        dailyGambiarraSection.innerHTML = '';
+        const card = createDailyGambiarraCard(gambiarra);
+        dailyGambiarraSection.appendChild(card);
+        dailyGambiarraSection.style.display = 'flex';
+    }
+
+    // ==================== Existing Functions ====================
     function extractColorsFromImage(imagePath) {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -101,6 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para renderizar as mensagens na tela
     function renderMessages(messages) {
         messagesContainer.innerHTML = ''; // Limpa o container (remove o loading)
+
+        // Renderiza a Gambiarra do Dia (sempre que renderizar mensagens)
+        renderDailyGambiarra(messages);
 
         // Inverte a ordem para mostrar os mais recentes primeiro (opcional, dependendo de como o JSON é mantido)
         // Vamos assumir que novos são adicionados no final do array, então invertemos para mostrar no topo

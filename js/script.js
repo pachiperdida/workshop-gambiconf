@@ -2,8 +2,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-container');
     const searchInput = document.getElementById('search-input');
     const dailyGambiarraSection = document.getElementById('daily-gambiarra-section');
+    const themeToggle = document.getElementById('theme-toggle');
+    const randomBtn = document.getElementById('random-highlight-btn');
     let colorPalette = [];
     let allMessages = [];
+
+    // ============ DARK MODE ============
+    // Inicializa o tema baseado na preferência salva ou preferência do sistema
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            updateThemeIcon(true);
+        } else {
+            document.body.classList.remove('dark-mode');
+            updateThemeIcon(false);
+        }
+    }
+
+    // Atualiza o ícone do botão
+    function updateThemeIcon(isDark) {
+        if (themeToggle) {
+            themeToggle.innerHTML = isDark ? '☀️' : '🌙';
+            themeToggle.title = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+    }
+
+    // Toggle do tema
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    // Event listener do botão
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Inicializa o tema
+    initTheme();
 
     // ==================== Date-Based Seeding ====================
     
@@ -89,11 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'daily-gambiarra-date';
-        const dateObj = new Date(date);
-        if (isNaN(dateObj.getTime())) {
-            dateSpan.textContent = date;
-        } else {
+        try {
+            const dateObj = new Date(date);
             dateSpan.textContent = dateObj.toLocaleDateString('pt-BR');
+        } catch (e) {
+            dateSpan.textContent = date;
         }
 
         footer.appendChild(authorSpan);
@@ -134,17 +175,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const gambiarra = selectDailyGambiarra(messages);
 
         if (!gambiarra) {
-            dailyGambiarraSection.style.display = 'none';
+            if (dailyGambiarraSection) dailyGambiarraSection.style.display = 'none';
             return;
         }
 
+        if (!dailyGambiarraSection) return;
         dailyGambiarraSection.innerHTML = '';
         const card = createDailyGambiarraCard(gambiarra);
         dailyGambiarraSection.appendChild(card);
         dailyGambiarraSection.style.display = 'flex';
     }
-
-    // ==================== Existing Functions ====================
     function extractColorsFromImage(imagePath) {
         return new Promise((resolve, reject) => {
             const img = new Image();
